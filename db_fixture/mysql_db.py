@@ -33,9 +33,10 @@ class DB:
     def clear(self, table_name):
         # real_sql = "truncate table " + table_name + ";"
         real_sql = "delete from " + table_name + ";"
+        # print('clear语句：', real_sql)
 
         with self.connection.cursor() as cursor:
-            cursor.execute("SET FOREIGN_KEY_CHECKS=0;")
+            cursor.execute("SET FOREIGN_KEY_CHECKS=0;")    # 不知道为什么这个语句在我这边不能执行成功
             cursor.execute(real_sql)
         self.connection.commit()
 
@@ -46,8 +47,8 @@ class DB:
 
         key = ','.join(table_data.keys())
         value = ','.join(table_data.values())
-        real_sql = "INSERT INTO" + table_name + " (" + key + ") VALUES (" + value + ")"
-        # print(real_sql)
+        real_sql = "INSERT INTO " + table_name + " (" + key + ") VALUES (" + value + ")"
+        # print('insert语句：', real_sql)
 
         with self.connection.cursor() as cursor:
             cursor.execute(real_sql)
@@ -65,7 +66,7 @@ class DB:
             for d in data:
                 self.insert(table, d)
 
-            self.close()
+        self.close()
 
 
 if __name__ == '__main__':
